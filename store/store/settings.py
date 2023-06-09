@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 from pathlib import Path
 
 import environ
+import logging.config
 
 env = environ.Env(
     DEBUG=(bool),
@@ -75,6 +76,7 @@ INSTALLED_APPS = [
     'debug_toolbar',
     'django.contrib.humanize',
     'django_extensions',
+    'storage',
 
     'products',
     'users',
@@ -194,18 +196,37 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
+# base static
 
-STATIC_URL = '/static/'
+# STATIC_URL = '/static/'
+#
+# if DEBUG:
+#     STATICFILES_DIRS = [
+#         BASE_DIR / 'static',
+#     ]
+# else:
+#     STATIC_ROOT = BASE_DIR / 'static'
+#
+# MEDIA_URL = '/media/'
+# MEDIA_ROOT = BASE_DIR / 'media'
 
-if DEBUG:
-    STATICFILES_DIRS = [
-        BASE_DIR / 'static',
-    ]
-else:
-    STATIC_ROOT = BASE_DIR / 'static'
+# Static via the docker and s3 by digital ocean tutorial
 
-MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'media'
+AWS_ACCESS_KEY_ID = env('STATIC_ACCESS_KEY_ID')
+AWS_SECRET_ACCESS_KEY = env('STATIC_SECRET_KEY')
+
+AWS_STORAGE_BUCKET_NAME = env('STATIC_BUCKET_NAME')
+AWS_S3_ENDPOINT_URL = env('STATIC_ENDPOINT_URL')
+AWS_S3_OBJECT_PARAMETERS = {
+    'CacheControl': 'max-age=86400',
+}
+AWS_LOCATION = 'static'
+AWS_DEFAULT_ACL = 'public-read'
+
+STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+
+STATIC_URL = '{}/{}/'.format(AWS_S3_ENDPOINT_URL, AWS_LOCATION)
+STATIC_ROOT = 'static/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
@@ -258,3 +279,33 @@ CELERY_RESULT_BACKEND = f'redis://{REDIS_HOST}:{REDIS_PORT}'
 STRIPE_PUBLIC_KEY = env('STRIPE_PUBLIC_KEY')
 STRIPE_SECRETE_KEY = env('STRIPE_SECRETE_KEY')
 STRIPE_WEBHOOK_SECRET = env('STRIPE_WEBHOOK_SECRET')
+
+# Logging Configuration via the docker and s3 by digital ocean tutorial
+
+# Clear prev config
+LOGGING_CONFIG = None
+
+# Get loglevel from env
+LOGLEVEL = env('DJANGO_LOGLEVEL', 'info').upper()
+
+logging.config.dictConfig({
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'console': {
+            'format': '%(asctime)s %(levelname)s [%(name)s:%(lineno)s] %(module)s %(process)d %(thread)d %(message)s',
+        },
+    },
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+            'formatter': 'console',
+        },
+    },
+    'loggers': {
+        '': {
+            'level': LOGLEVEL,
+            'handlers': ['console',],
+        },
+    },
+})

@@ -1,0 +1,42 @@
+[
+  {
+    "model": "products.productcategory",
+    "pk": 1,
+    "fields": {
+      "name": "Купальники/плавки",
+      "description": "Купальные костюмы для спорта и отдыха разных размеров"
+    }
+  },
+  {
+    "model": "products.productcategory",
+    "pk": 2,
+    "fields": {
+      "name": "Гидрокостюмы",
+      "description": "Стартовые костюмы с допуском FINA"
+    }
+  },
+  {
+    "model": "products.productcategory",
+    "pk": 3,
+    "fields": {
+      "name": "Очки",
+      "description": "Плавательные очки для тренировок и стартов"
+    }
+  },
+  {
+    "model": "products.productcategory",
+    "pk": 4,
+    "fields": {
+      "name": "Инвентарь",
+      "description": "Инвентарь для тренировок: тренажеры, ласты, лопатки и т.д."
+    }
+  },
+  {
+    "model": "products.productcategory",
+    "pk": 5,
+    "fields": {
+      "name": "Одежда",
+      "description": "Спортивные костюмы и повседневная одежда"
+    }
+  }
+]

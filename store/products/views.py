@@ -2,6 +2,7 @@ from django.contrib.auth.decorators import login_required
 from django.core.cache import cache
 from django.shortcuts import HttpResponseRedirect
 from django.views.generic.base import TemplateView
+from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
 
 from common.views import TitleMixin
@@ -28,12 +29,27 @@ class ProductsListView(TitleMixin, ListView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super(ProductsListView, self).get_context_data()
+        context['category'] = self.kwargs.get('category_id')  # current category for correct pagination
         categories = cache.get('categories')
         if not categories:
             context['categories'] = ProductCategory.objects.all()
             cache.set('categories', context['categories'], 30)
         else:
             context['categories'] = categories
+        return context
+
+
+class ProductDetailsView(TitleMixin, DetailView):
+    model = Product
+    template_name = 'products/product.html'
+
+    def get_good_name(self):
+        return self.object.name
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data()
+        context['back_link'] = self.request.META['HTTP_REFERER']
+        context['title'] = 'Store - {}'.format(self.object.name)
         return context
 
 
@@ -55,24 +71,3 @@ def basket_remove(request, basket_id):
     basket = Basket.objects.get(id=basket_id)
     basket.delete()
     return HttpResponseRedirect(request.META['HTTP_REFERER'])
-
-
-# def index(request):
-#     context = {
-#         'title': 'Store',
-#     }
-#     return render(request, 'products/index.html', context)
-
-
-# def products(request, category_id=None, page_number=1):
-#     products = Product.objects.filter(category_id=category_id) if category_id else Product.objects.all()
-#     per_page = 3
-#     paginator = Paginator(products, per_page)
-#     products_paginator = paginator.page(page_number)
-#
-#     context = {
-#         'title': 'Store - каталог',
-#         'categories': ProductCategory.objects.all(),
-#         'products': products_paginator,
-#     }
-#     return render(request, 'products/products.html', context)

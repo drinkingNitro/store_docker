@@ -1,0 +1,290 @@
+[
+  {
+    "model": "products.product",
+    "pk": 1,
+    "fields": {
+      "name": "Купальник Ариадна спортивный",
+      "description": "Купальник из прочного материала. Подойдет для регулярных тренировок. Можно использовать в соленой воде и на солнце.",
+      "price": "2710.00",
+      "quantity": 10,
+      "image": "products_images/swimsuit_ariadna.jpg",
+      "category": 1
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 2,
+    "fields": {
+      "name": "Купальник Мария раздельный",
+      "description": "Яркий купальник в стиле 'вне времени'. Подойдет для пляжного отдыха или аквапарка.",
+      "price": "4020.00",
+      "quantity": 9,
+      "image": "products_images/swimsuit_maria.jpg",
+      "category": 1
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 3,
+    "fields": {
+      "name": "Купальник София монокини",
+      "description": "Слитный открытый купальник. Обеспечивает необычный загар.",
+      "price": "1790.00",
+      "quantity": 17,
+      "image": "products_images/swimsuit_sofiya.jpg",
+      "category": 1
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 4,
+    "fields": {
+      "name": "Плавки Эдгар спортивные",
+      "description": "Плавки из прочного материала. Подойдут для регулярных тренировок. Можно использовать в соленой воде и на солнце.",
+      "price": "2220.00",
+      "quantity": 11,
+      "image": "products_images/swimsuit_edgar.jpg",
+      "category": 1
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 5,
+    "fields": {
+      "name": "Плавки Валентин для водного поло",
+      "description": "Плавки для регулярных тренировок с ярким принтом.",
+      "price": "2640.00",
+      "quantity": 7,
+      "image": "products_images/swimsuit_valentin.jpg",
+      "category": 1
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 6,
+    "fields": {
+      "name": "Плавки Хорхе в форме шорт",
+      "description": "Удобные плавки-шорты. Подойдут для пляжа и неспешного купания.",
+      "price": "1150.00",
+      "quantity": 11,
+      "image": "products_images/swimsuit_jorje.jpg",
+      "category": 1
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 7,
+    "fields": {
+      "name": "Гидрокостюм стартовый женский",
+      "description": "Стартовый костюм. Не предназначен для регулярных тренировок.",
+      "price": "11200.00",
+      "quantity": 20,
+      "image": "products_images/fs_women.jpg",
+      "category": 2
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 8,
+    "fields": {
+      "name": "Гидрокостюм стартовый мужской",
+      "description": "Стартовый костюм. Не предназначен для регулярных тренировок.",
+      "price": "8700.00",
+      "quantity": 30,
+      "image": "products_images/fs_men.jpg",
+      "category": 2
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 9,
+    "fields": {
+      "name": "Очки стартовые классика",
+      "description": "Комфортные стартовые очки, можно использовать для регулярных тренировок.",
+      "price": "5600.00",
+      "quantity": 150,
+      "image": "products_images/glasses_cobra.jpg",
+      "category": 3
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 10,
+    "fields": {
+      "name": "Очки стартовые аэродинамик",
+      "description": "Стартовые очки улучшенной формы для оптимального обтекания",
+      "price": "7100.00",
+      "quantity": 240,
+      "image": "products_images/glasses_fastskin.jpg",
+      "category": 3
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 11,
+    "fields": {
+      "name": "Очки детские",
+      "description": "Детские очки для тренировок в басссейне и в море.",
+      "price": "1500.00",
+      "quantity": 92,
+      "image": "products_images/glasses_kids.jpg",
+      "category": 3
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 12,
+    "fields": {
+      "name": "Очки для регулярных тренировок классические",
+      "description": "Очки для тренировок в бассейне и в море.",
+      "price": "990.00",
+      "quantity": 512,
+      "image": "products_images/glasses_regular.jpg",
+      "category": 3
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 13,
+    "fields": {
+      "name": "Очки стартовые \"стекляшки\"",
+      "description": "Стартовые очки без уплотнительных резинок.",
+      "price": "1300.00",
+      "quantity": 265,
+      "image": "products_images/glasses_sweds.jpg",
+      "category": 3
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 14,
+    "fields": {
+      "name": "Лопатки большие",
+      "description": "Лопатки для тренировок. Значительно увеличивают площадь ладони.",
+      "price": "1450.00",
+      "quantity": 26,
+      "image": "products_images/paddles_big.jpg",
+      "category": 4
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 15,
+    "fields": {
+      "name": "Лопатки маленькие",
+      "description": "Лопатки для тренировок. Увеличивают площадь зоны пальцев.",
+      "price": "1100.00",
+      "quantity": 65,
+      "image": "products_images/paddles_small.jpg",
+      "category": 4
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 16,
+    "fields": {
+      "name": "Колабашка",
+      "description": "Предназначена для тренировки рук. Помогает удерживать ноги близко к поверхности.",
+      "price": "950.00",
+      "quantity": 212,
+      "image": "products_images/pullbuoy.jpg",
+      "category": 4
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 17,
+    "fields": {
+      "name": "Трубка дыхательная",
+      "description": "Крепится на голову спереди.",
+      "price": "935.00",
+      "quantity": 65,
+      "image": "products_images/snorkel.jpg",
+      "category": 4
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 18,
+    "fields": {
+      "name": "Доска для плавания",
+      "description": "Предназначена для тренировки ног. Помогает удерживать руки близко к поверхности.",
+      "price": "1050.00",
+      "quantity": 110,
+      "image": "products_images/desk.jpg",
+      "category": 4
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 19,
+    "fields": {
+      "name": "Ласты резиновые",
+      "description": "Классические мягкие резиновые ласты.",
+      "price": "700.00",
+      "quantity": 34,
+      "image": "products_images/fin_dolphin.jpg",
+      "category": 4
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 20,
+    "fields": {
+      "name": "Ласты пластиковые",
+      "description": "Классические жесткие пластиковые ласты.",
+      "price": "800.00",
+      "quantity": 23,
+      "image": "products_images/fin_plastique.jpg",
+      "category": 4
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 21,
+    "fields": {
+      "name": "Ласты короткие",
+      "description": "Короткие ласты для тренировок в бассейне.",
+      "price": "1110.00",
+      "quantity": 66,
+      "image": "products_images/fin_short.jpg",
+      "category": 4
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 22,
+    "fields": {
+      "name": "Моноласта",
+      "description": "Одна большая ласта для двух ног. Предназначена для специальных тренировок.",
+      "price": "2000.00",
+      "quantity": 2,
+      "image": "products_images/fin_mono.jpg",
+      "category": 4
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 23,
+    "fields": {
+      "name": "Олимпийка",
+      "description": "Верхняя часть спортивного костюма.",
+      "price": "4600.00",
+      "quantity": 17,
+      "image": "products_images/wear_top.jpg",
+      "category": 5
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 24,
+    "fields": {
+      "name": "Спортивные брюки",
+      "description": "Нижняя часть спортивного костюма.",
+      "price": "4600.00",
+      "quantity": 17,
+      "image": "products_images/wear_bot.jpg",
+      "category": 5
+    }
+  }
+]
