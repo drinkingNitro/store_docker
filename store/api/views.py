@@ -1,10 +1,9 @@
+from products.models import Basket, Product
+from products.serializers import BasketSerializer, ProductSerializer
 from rest_framework import status
 from rest_framework.permissions import IsAdminUser, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
-
-from products.models import Basket, Product
-from products.serializers import BasketSerializer, ProductSerializer
 
 
 class ProductsModelViewSet(ModelViewSet):

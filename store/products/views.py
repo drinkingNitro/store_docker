@@ -1,14 +1,12 @@
+from common.views import TitleMixin
 from django.contrib.auth.decorators import login_required
 from django.core.cache import cache
 from django.shortcuts import HttpResponseRedirect
+from django.urls import reverse
 from django.views.generic.base import TemplateView
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
-
-from common.views import TitleMixin
 from products.models import Basket, Product, ProductCategory
-
-''' создаем контроллеры (функции, иногда классы?), они же: вьюхи'''
 
 
 class IndexView(TitleMixin, TemplateView):
@@ -20,6 +18,7 @@ class ProductsListView(TitleMixin, ListView):
     model = Product
     template_name = 'products/products.html'
     paginate_by = 3
+    ordering = 'id'
     title = 'Store - Каталог'
 
     def get_queryset(self):
@@ -48,21 +47,16 @@ class ProductDetailsView(TitleMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data()
-        context['back_link'] = self.request.META['HTTP_REFERER']
+        back_link = self.request.META.get('HTTP_REFERER') if self.request.META.get('HTTP_REFERER') else \
+            reverse('products:index')
+        context['back_link'] = back_link
         context['title'] = 'Store - {}'.format(self.object.name)
         return context
 
 
 @login_required
 def basket_add(request, product_id):
-    product = Product.objects.get(id=product_id)
-    baskets = Basket.objects.filter(user=request.user, product=product)
-    if not baskets.exists():
-        Basket.objects.create(user=request.user, product=product, quantity=1)
-    else:
-        basket = baskets.first()
-        basket.quantity += 1
-        basket.save()
+    Basket.create_or_update(product_id, request.user)
     return HttpResponseRedirect(request.META['HTTP_REFERER'])
 
 

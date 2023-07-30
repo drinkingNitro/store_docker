@@ -1,0 +1,48 @@
+version: '3'
+
+services:
+  store:
+    build: ./store
+    command: gunicorn store.wsgi:application --bind 0.0.0.0:8000 --workers 3
+#    volumes:
+#      - ./store:/usr/src/store
+    expose:
+      - 8000
+    env_file:
+      - ./.env_prod
+
+  redis:
+    image: redis:7.0.12-alpine
+    env_file:
+      - ./.env_prod
+
+  celery:
+    restart: always
+    build:
+      context: ./store
+    command: celery -A store worker -l INFO
+    volumes:
+      - ./store:/usr/src/store
+    depends_on:
+      - store
+      - redis
+    env_file:
+      - ./.env_prod
+
+  nginx:
+    build: ./nginx
+    ports:
+      - "1337:80"
+    depends_on:
+      - store
+
+
+
+
+#    networks:
+#      hostnet: {}
+#
+#networks:
+#  hostnet:
+#    external: true
+#    name: host

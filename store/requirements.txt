@@ -5,6 +5,8 @@ django-allauth==0.52.0
 django-environ==0.10.0
 django-extensions==3.2.1
 django-storages==1.13.2
+djangorestframework==3.14.0
+boto3==1.26.150
 
 django_debug_toolbar==3.8.1
 
@@ -14,6 +16,7 @@ isort==5.12.0
 django-redis==5.2.0
 redis==4.5.1
 celery==5.2.7
+gunicorn==20.1.0
 
 stripe==5.2.0
 

@@ -69,7 +69,6 @@
                                 <a href="{% url 'products:product_details' product.id %}">{{ product.name }}</a>
                             </h4>
                             <h5>{{ product.price | intcomma }}</h5>
-                            <p class="card-text">{{ product.description }}</p>
                         </div>
                         <div class="card-footer text-center">
                             <a class="btn btn-outline-success" href="{% url 'products:basket_add' product.id %}">

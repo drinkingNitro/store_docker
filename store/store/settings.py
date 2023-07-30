@@ -10,10 +10,10 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
+import logging.config
 from pathlib import Path
 
 import environ
-import logging.config
 
 env = environ.Env(
     DEBUG=(bool),
@@ -37,13 +37,21 @@ env = environ.Env(
     STRIPE_PUBLIC_KEY=(str),
     STRIPE_SECRETE_KEY=(str),
     STRIPE_WEBHOOK_SECRET=(str),
+
+    USE_S3=(bool),
+
+    STATIC_ACCESS_KEY_ID=(str),
+    STATIC_SECRET_KEY=(str),
+    STATIC_BUCKET_NAME=(str),
+
+    DJANGO_LOGLEVEL=(str),
 )
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# Take environment variables from .env file
-environ.Env.read_env(BASE_DIR / '.env')
+# Take environment variables from .env_prod file
+environ.Env.read_env(BASE_DIR / '../.env_prod')
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
@@ -76,7 +84,9 @@ INSTALLED_APPS = [
     'debug_toolbar',
     'django.contrib.humanize',
     'django_extensions',
-    'storage',
+    'storages',
+    'rest_framework',
+    'rest_framework.authtoken',
 
     'products',
     'users',
@@ -194,39 +204,44 @@ USE_L10N = True
 USE_TZ = True
 
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/3.2/howto/static-files/
-# base static
+if env('USE_S3'):
 
-# STATIC_URL = '/static/'
-#
-# if DEBUG:
-#     STATICFILES_DIRS = [
-#         BASE_DIR / 'static',
-#     ]
-# else:
-#     STATIC_ROOT = BASE_DIR / 'static'
-#
-# MEDIA_URL = '/media/'
-# MEDIA_ROOT = BASE_DIR / 'media'
+    #  AWS settings
+    AWS_S3_SIGNATURE_VERSION = 's3v4'
+    AWS_ACCESS_KEY_ID = env('STATIC_ACCESS_KEY_ID')
+    AWS_SECRET_ACCESS_KEY = env('STATIC_SECRET_KEY')
+    AWS_STORAGE_BUCKET_NAME = env('STATIC_BUCKET_NAME')
+    AWS_S3_CUSTOM_DOMAIN = f'{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com'
+    AWS_S3_OBJECT_PARAMETERS = {
+        'CacheControl': 'max-age=86400',
+    }
+    AWS_DEFAULT_ACL = None
 
-# Static via the docker and s3 by digital ocean tutorial
+    #  AWS static settings
+    AWS_LOCATION = 'static'
+    # STATICFILES_DIRS = [
+    #     BASE_DIR / 'static',
+    # ]
+    STATIC_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/{AWS_LOCATION}/'
+    STATICFILES_STORAGE = 'store.storage_backends.StaticStorage'
 
-AWS_ACCESS_KEY_ID = env('STATIC_ACCESS_KEY_ID')
-AWS_SECRET_ACCESS_KEY = env('STATIC_SECRET_KEY')
+    # AWS public media settings
+    PUBLIC_MEDIA_LOCATION = 'media'
+    MEDIA_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/{PUBLIC_MEDIA_LOCATION}/'
+    DEFAULT_FILE_STORAGE = 'store.storage_backends.PublicMediaStorage'
 
-AWS_STORAGE_BUCKET_NAME = env('STATIC_BUCKET_NAME')
-AWS_S3_ENDPOINT_URL = env('STATIC_ENDPOINT_URL')
-AWS_S3_OBJECT_PARAMETERS = {
-    'CacheControl': 'max-age=86400',
-}
-AWS_LOCATION = 'static'
-AWS_DEFAULT_ACL = 'public-read'
+else:
+    STATIC_URL = '/static/'
 
-STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+    if DEBUG:
+        STATICFILES_DIRS = [
+            BASE_DIR / 'static',
+        ]
+    else:
+        STATIC_ROOT = BASE_DIR / 'static'
 
-STATIC_URL = '{}/{}/'.format(AWS_S3_ENDPOINT_URL, AWS_LOCATION)
-STATIC_ROOT = 'static/'
+        MEDIA_URL = '/media/'
+        MEDIA_ROOT = BASE_DIR / 'media'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
@@ -280,13 +295,25 @@ STRIPE_PUBLIC_KEY = env('STRIPE_PUBLIC_KEY')
 STRIPE_SECRETE_KEY = env('STRIPE_SECRETE_KEY')
 STRIPE_WEBHOOK_SECRET = env('STRIPE_WEBHOOK_SECRET')
 
+#  Django REST Framework
+
+REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+    'PAGE_SIZE': 4,
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+            'rest_framework.authentication.TokenAuthentication',
+        ],
+}
+
+
+
 # Logging Configuration via the docker and s3 by digital ocean tutorial
 
 # Clear prev config
 LOGGING_CONFIG = None
 
 # Get loglevel from env
-LOGLEVEL = env('DJANGO_LOGLEVEL', 'info').upper()
+LOGLEVEL = env('DJANGO_LOGLEVEL')
 
 logging.config.dictConfig({
     'version': 1,

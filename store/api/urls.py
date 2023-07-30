@@ -1,7 +1,6 @@
+from api.views import BasketModelViewSet, ProductsModelViewSet
 from django.urls import include, path
 from rest_framework import routers
-
-from api.views import BasketModelViewSet, ProductsModelViewSet
 
 app_name = 'api'
 

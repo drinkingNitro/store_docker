@@ -1,6 +1,5 @@
-from rest_framework import fields, serializers
-
 from products.models import Basket, Product, ProductCategory
+from rest_framework import fields, serializers
 
 
 class ProductSerializer(serializers.ModelSerializer):
@@ -13,8 +12,8 @@ class ProductSerializer(serializers.ModelSerializer):
 
 class BasketSerializer(serializers.ModelSerializer):
     product = ProductSerializer()
-    sum = fields.FloatField()
-    total_sum = fields.SerializerMethodField(required=False)
+    sum = fields.FloatField(required=False)
+    total_sum = fields.SerializerMethodField()
     total_quantity = fields.SerializerMethodField()
 
     class Meta:
