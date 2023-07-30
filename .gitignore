@@ -3,5 +3,4 @@ store/.idea
 .env_dev
 .env_prod
 
-Dockerfile
 ./media/users_images
